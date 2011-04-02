@@ -1,0 +1,77 @@
+﻿<navigation:Page xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data" xmlns:Controls1="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.DomainServices" xmlns:Services="clr-namespace:SnippetRepository.Web.Services" xmlns:ViewModels="clr-namespace:SnippetRepository.ViewModels" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"  x:Class="SnippetRepository.Views.SnippetsListPage"
+           mc:Ignorable="d"
+           d:DesignWidth="1000" d:DesignHeight="600"
+                 Title="Snippets List"
+                 Style="{StaticResource PageStyle}">
+    <navigation:Page.DataContext>
+        <ViewModels:SnippetsListModel />
+    </navigation:Page.DataContext>
+    <Grid x:Name="LayoutRoot">
+        <ScrollViewer x:Name="PageScrollViewer"
+                      Style="{StaticResource PageScrollViewerStyle}">
+            <StackPanel x:Name="ContentStackPanel">
+
+                <TextBlock x:Name="HeaderText"
+                           Style="{StaticResource HeaderTextStyle}"
+                           Text="Snippets" />
+                <Grid Height="200" Width="900" HorizontalAlignment="Center">
+                	<Grid.RowDefinitions>
+                		<RowDefinition Height="50"/>
+                		<RowDefinition/>
+                	</Grid.RowDefinitions>
+                	<Grid.ColumnDefinitions>
+                		<ColumnDefinition Width="0.497*"/>
+                		<ColumnDefinition Width="0.503*"/>
+                	</Grid.ColumnDefinitions>
+
+                	<Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" Background="{StaticResource HighlightLightBrush}" Grid.ColumnSpan="2" Margin="0,5" Padding="5,0" CornerRadius="5">
+                		<StackPanel Orientation="Horizontal" d:LayoutOverrides="Height">
+                			<TextBlock x:Name="tagSearch" TextWrapping="Wrap" Text="Tags" VerticalAlignment="Center"/>
+                			<TextBox x:Name="tagSearchBox" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10,0" Width="150"/>
+                			<TextBlock x:Name="containsSearch" TextWrapping="Wrap" Text="Contains" VerticalAlignment="Center"/>
+                			<TextBox x:Name="containsSearchBox" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10,0" Width="150"/>
+                			<TextBlock x:Name="dateAdded" TextWrapping="Wrap" Text="Date Added" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                			<sdk:DatePicker x:Name="fromDate" VerticalAlignment="Center" Margin="10,0"/>
+                			<sdk:DatePicker x:Name="toDate" VerticalAlignment="Center" Margin="10,0"/>
+                		</StackPanel>
+                	</Border>
+
+                	<Controls:DataGrid
+                		ItemsSource="{Binding Snippets}"
+                		AutoGenerateColumns="False"
+                		IsReadOnly="True"
+                                   d:LayoutOverrides="Width, Height" Grid.Row="1"
+                                   >
+                		<Controls:DataGrid.Columns>
+                			<Controls:DataGridTextColumn Binding="{Binding Title}"
+                				CanUserReorder="True"
+                				CanUserResize="True"
+                				CanUserSort="True"
+                				Width="Auto"
+                				Header="Title" />
+                			<Controls:DataGridTextColumn CanUserReorder="True"
+                				CanUserResize="True"
+                				CanUserSort="True"
+                				Width="Auto"
+                				Binding="{Binding Description, Mode=OneWay}"
+                				Header="Description" />
+                			<Controls:DataGridTextColumn CanUserReorder="True"
+                				CanUserResize="True"
+                				CanUserSort="True"
+                				Width="Auto"
+                				Binding="{Binding DateAdded.Date, Mode=OneWay, StringFormat=\{0:d\}}"
+                				Header="Date Added" />
+                		</Controls:DataGrid.Columns>
+                	</Controls:DataGrid>
+
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</navigation:Page>
